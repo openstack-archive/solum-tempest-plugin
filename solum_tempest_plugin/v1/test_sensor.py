@@ -1,7 +1,5 @@
-# -*- coding: utf-8 -*-
-
-# Copyright 2010-2011 OpenStack Foundation
-# Copyright (c) 2013 Hewlett-Packard Development Company, L.P.
+#
+# Copyright 2013 - Noorul Islam K M
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
@@ -15,9 +13,15 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from oslotest import base
+import json
+
+from solum_tempest_plugin import base
 
 
-class TestCase(base.BaseTestCase):
+class TestSensorController(base.TestCase):
 
-    """Test case base class for all unit tests."""
+    def test_sensors_get_all(self):
+        resp, body = self.client.get('v1/sensors')
+        data = json.loads(body)
+        self.assertEqual(200, resp.status)
+        self.assertEqual([], data)

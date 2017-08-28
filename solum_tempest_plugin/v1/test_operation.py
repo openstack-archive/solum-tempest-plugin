@@ -1,5 +1,6 @@
-# -*- coding: utf-8 -*-
-
+#
+# Copyright 2013 - Noorul Islam K M
+#
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
 # a copy of the License at
@@ -12,17 +13,15 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-"""
-test_solum_tempest_plugin
-----------------------------------
+import json
 
-Tests for `solum_tempest_plugin` module.
-"""
-
-from solum_tempest_plugin.tests import base
+from solum_tempest_plugin import base
 
 
-class TestSolum_tempest_plugin(base.TestCase):
+class TestOperationController(base.TestCase):
 
-    def test_something(self):
-        pass
+    def test_operations_get_all(self):
+        resp, body = self.client.get('v1/operations')
+        data = json.loads(body)
+        self.assertEqual(200, resp.status)
+        self.assertEqual([], data)
