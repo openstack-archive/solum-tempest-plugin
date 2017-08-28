@@ -1,0 +1,6 @@
+[run]
+branch = True
+source = solum-tempest-plugin
+
+[report]
+ignore_errors = True
