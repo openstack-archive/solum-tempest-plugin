@@ -15,7 +15,6 @@
 
 import json
 
-from solum import version
 from solum_tempest_plugin import base
 
 
@@ -39,8 +38,6 @@ class TestRootController(base.TestCase):
         self.assertEqual(data['type'], 'platform')
         self.assertEqual(data['name'], 'solum')
         self.assertEqual(data['description'], 'solum native implementation')
-        self.assertEqual(data['implementation_version'],
-                         version.version_string())
         self.assertEqual(data['plans_uri'],
                          '%s/v1/plans' % self.client.base_url)
         self.assertEqual(data['assemblies_uri'],
