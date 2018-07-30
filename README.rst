@@ -1,20 +1,37 @@
-===============================
-solum-tempest-plugin
-===============================
+========================
+Team and repository tags
+========================
 
-Tempest plugin for the solum project.
+.. image:: https://governance.openstack.org/tc/badges/solum-tempest-plugin.svg
+    :target: https://governance.openstack.org/tc/reference/tags/index.html
 
-Please fill here a long description which must be at least 3 lines wrapped on
-80 cols, so that distribution package maintainers can use it in their packages.
-Note that this is a hard requirement.
+============================
+Tempest Integration of Solum
+============================
+
+This directory contains Tempest tests to cover the Solum project, as well
+as a plugin to automatically load these tests into tempest.
+
+See the Tempest plugin docs for information on using it:
+https://docs.openstack.org/tempest/latest/#using-plugins
 
 * Free software: Apache license
-* Documentation: https://docs.openstack.org/solum/latest/
-* Release notes: https://docs.openstack.org/releasenotes/solum/
+* Documentation: https://docs.openstack.org/solum-tempest-plugin/latest
 * Source: https://git.openstack.org/cgit/openstack/solum-tempest-plugin
 * Bugs: https://bugs.launchpad.net/solum
 
-Features
---------
+Running the tests
+-----------------
 
-* TODO
+To run all tests from this plugin, install Solum into your environment and
+navigate to tempest directory::
+
+    $ cd /opt/stack/tempest
+
+Run this command::
+
+    $ tox -e all-plugin -- solum_tempest_plugin
+
+To run a single test case, run with the test case name, for example::
+
+    $ tox -e all-plugin -- solum_tempest_plugin.camp.v1_1.test_plans.TestPlansController.test_create_camp_plan
