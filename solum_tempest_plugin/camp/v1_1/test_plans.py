@@ -98,7 +98,7 @@ class TestPlansController(base.TestCase):
         self.assertEqual(200, resp.status, 'GET plans resource')
 
         # pick out the plan link for our new plan uuid
-        plans_dct = json.loads(body)
+        plans_dct = json.loads(body.decode('utf-8'))
         camp_link = None
         for link in plans_dct['plan_links']:
             link_uuid = link['href'].split("/")[-1]
@@ -115,7 +115,7 @@ class TestPlansController(base.TestCase):
         self.assertEqual(200, resp.status, msg)
 
         # CAMP plans are rendered in JSON
-        plan = json.loads(body)
+        plan = json.loads(body.decode('utf-8'))
         self.assertEqual(base.plan_sample_data['name'], plan['name'])
         self.assertEqual(base.plan_sample_data['description'],
                          plan['description'])
@@ -344,7 +344,7 @@ class TestPlansController(base.TestCase):
             uri, patch_json,
             headers={'content-type': 'application/json-patch+json'})
         self.assertEqual(200, resp.status)
-        json_data = json.loads(body)
+        json_data = json.loads(body.decode('utf-8'))
         self.assertIn('tags', json_data)
         tags = json_data['tags']
         self.assertEqual(2, len(tags))

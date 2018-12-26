@@ -96,7 +96,7 @@ class TestAppController(base.TestCase):
             headers={'content-type': 'application/json'})
 
         self.assertEqual(200, resp.status)
-        app_body = json.loads(body)
+        app_body = json.loads(body.decode('utf-8'))
         self.assertEqual('newfakeappname', app_body["name"])
         self.assertEqual("newruncmd", app_body["workflow_config"]["run_cmd"])
         self.assertEqual("newrepo", app_body["source"]["repository"])
@@ -145,7 +145,7 @@ class TestAppController(base.TestCase):
         id = create_resp.id
         resp, body = self.client.delete_app(id)
         self.assertEqual(202, resp.status)
-        self.assertEqual('', body)
+        self.assertEqual(b'', body)
         time.sleep(2)
         self.client.delete_language_pack(lp_name)
 

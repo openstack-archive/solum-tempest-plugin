@@ -70,7 +70,7 @@ class TestAssemblyController(base.TestCase):
         self.assertEqual(200, resp.status)
 
         # Search for uuids of created assemblies
-        assembly_list = json.loads(body)
+        assembly_list = json.loads(body.decode('utf-8'))
         found_uuid_1 = False
         found_uuid_2 = False
         for assembly in assembly_list:
@@ -115,7 +115,7 @@ class TestAssemblyController(base.TestCase):
                                                       plan_uuid)
         resp, body = self.client.get('v1/assemblies/%s' % uuid)
         self.assertEqual(200, resp.status)
-        json_data = json.loads(body)
+        json_data = json.loads(body.decode('utf-8'))
         self._assert_output_expected(json_data, sample_data)
 
         # Now check that HTTPS is respected. No new assemblies are created.
@@ -126,7 +126,7 @@ class TestAssemblyController(base.TestCase):
         resp, body = self.client.get('v1/assemblies/%s' % uuid,
                                      headers=use_https)
         self.assertEqual(200, resp.status)
-        json_data = json.loads(body)
+        json_data = json.loads(body.decode('utf-8'))
         self._assert_output_expected(json_data, sample_data)
 
     def test_assemblies_get_not_found(self):
@@ -152,7 +152,7 @@ class TestAssemblyController(base.TestCase):
         updated_json = json.dumps(updated_data)
         resp, body = self.client.put('v1/assemblies/%s' % uuid, updated_json)
         self.assertEqual(200, resp.status)
-        json_data = json.loads(body)
+        json_data = json.loads(body.decode('utf-8'))
         self._assert_output_expected(json_data, updated_data)
 
     def test_assemblies_put_not_found(self):
@@ -205,7 +205,7 @@ class TestAssemblyController(base.TestCase):
 
         resp, body = self.client.delete_assembly(uuid)
         self.assertEqual(204, resp.status)
-        self.assertEqual('', body)
+        self.assertEqual(b'', body)
 
     def test_assemblies_delete_not_found(self):
         self.assertRaises(tempest_exceptions.NotFound,

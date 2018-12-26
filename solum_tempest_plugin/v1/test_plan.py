@@ -225,7 +225,7 @@ class TestPlanController(base.TestCase):
         uuid = create_resp.uuid
         resp, body = self.client.delete_plan(uuid)
         self.assertEqual(202, resp.status)
-        self.assertEqual('', body)
+        self.assertEqual(b'', body)
 
     def test_plans_delete_not_found(self):
         self.assertRaises(tempest_exceptions.NotFound,

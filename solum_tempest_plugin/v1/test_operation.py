@@ -22,6 +22,6 @@ class TestOperationController(base.TestCase):
 
     def test_operations_get_all(self):
         resp, body = self.client.get('v1/operations')
-        data = json.loads(body)
+        data = json.loads(body.decode('utf-8'))
         self.assertEqual(200, resp.status)
         self.assertEqual([], data)
