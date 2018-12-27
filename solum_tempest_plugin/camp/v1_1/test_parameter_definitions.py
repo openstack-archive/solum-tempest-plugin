@@ -27,7 +27,7 @@ class TestParameterDefinitions(base.TestCase):
             self.skipTest('CAMP not enabled.')
         resp, body = self.client.get('camp/v1_1/assemblies/')
         self.assertEqual(200, resp.status, 'GET assemblies resource')
-        assemblies = json.loads(body)
+        assemblies = json.loads(body.decode('utf-8'))
 
         # get the URL of the parameter_definitions resource
         url = (assemblies['parameter_definitions_uri']
@@ -37,7 +37,7 @@ class TestParameterDefinitions(base.TestCase):
         resp, body = self.client.get(url)
         self.assertEqual(200, resp.status,
                          'GET assembly parameter_definitions resource')
-        pd_resc = json.loads(body)
+        pd_resc = json.loads(body.decode('utf-8'))
         self.assertEqual('parameter_definitions', pd_resc['type'])
         self.assertIn('parameter_definition_links', pd_resc)
         pd_links = pd_resc['parameter_definition_links']
@@ -67,7 +67,7 @@ class TestParameterDefinitions(base.TestCase):
             self.skipTest('CAMP not enabled.')
         resp, body = self.client.get('camp/v1_1/plans/')
         self.assertEqual(200, resp.status, 'GET plans resource')
-        plans = json.loads(body)
+        plans = json.loads(body.decode('utf-8'))
 
         # get the URL of the parameter_definitions resource
         url = (plans['parameter_definitions_uri']
@@ -77,7 +77,7 @@ class TestParameterDefinitions(base.TestCase):
         resp, body = self.client.get(url)
         self.assertEqual(200, resp.status,
                          'GET plans parameter_definitions resource')
-        pd_resc = json.loads(body)
+        pd_resc = json.loads(body.decode('utf-8'))
         self.assertEqual('parameter_definitions', pd_resc['type'])
         self.assertIn('parameter_definition_links', pd_resc)
         pd_links = pd_resc['parameter_definition_links']

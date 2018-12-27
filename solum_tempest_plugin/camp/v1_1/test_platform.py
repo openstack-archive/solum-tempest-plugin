@@ -20,7 +20,7 @@ class TestPlatformAndContainers(base.TestCase):
     def _test_get_resource(self, url, rtype, name):
         resp, body = self.client.get(url)
         self.assertEqual(200, resp.status, 'GET %s resource' % rtype)
-        resource = json.loads(body)
+        resource = json.loads(body.decode('utf-8'))
         self.assertEqual(rtype, resource['type'])
         self.assertEqual(name, resource['name'])
 
@@ -30,7 +30,7 @@ class TestPlatformAndContainers(base.TestCase):
         # get and test our platform resource
         resp, body = self.client.get('camp/v1_1/platform/')
         self.assertEqual(200, resp.status, 'GET platform resource')
-        platform = json.loads(body)
+        platform = json.loads(body.decode('utf-8'))
         self.assertEqual('platform', platform['type'])
         self.assertEqual('Solum_CAMP_v1_1_platform', platform['name'])
         self.assertEqual('CAMP 1.1', platform['specification_version'])

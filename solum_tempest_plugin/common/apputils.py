@@ -16,7 +16,7 @@ import string
 
 def get_sample_data(languagepack=''):
     data = dict()
-    s = string.lowercase
+    s = string.ascii_lowercase
     data["name"] = "test_app" + ''.join(random.sample(s, 5))
     data["description"] = "descp"
     data["languagepack"] = languagepack

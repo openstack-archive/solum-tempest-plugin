@@ -129,7 +129,7 @@ class SolumClient(rest_client.RestClient):
 
     def create_lp(self, data=None):
         sample_lp = dict()
-        s = string.lowercase
+        s = string.ascii_lowercase
         sample_lp["name"] = "lp" + ''.join(random.sample(s, 5))
         lp_url = "https://github.com/murali44/Solum-lp-Go.git"
         sample_lp["source_uri"] = lp_url
@@ -164,7 +164,7 @@ class SolumClient(rest_client.RestClient):
 
     def delete_created_lps(self):
         resp, body = self.get('v1/language_packs')
-        data = json.loads(body)
+        data = json.loads(body.decode('utf-8'))
         [self._delete_language_pack(pl['uuid']) for pl in data]
 
     def _delete_language_pack(self, uuid):
@@ -199,9 +199,9 @@ class SolumResponse(object):
         self.resp = resp
         self.body = body
         if body_type == 'json':
-            self.data = json.loads(self.body)
+            self.data = json.loads(self.body.decode('utf-8'))
         elif body_type == 'yaml':
-            self.data = yaml.safe_load(self.body)
+            self.data = yaml.safe_load(self.body.decode('utf-8'))
         if self.data.get('uuid'):
             self.uuid = self.data.get('uuid')
         if self.data.get('id'):
@@ -213,11 +213,11 @@ class SolumResponse(object):
 
     @property
     def yaml_data(self):
-        return yaml.safe_load(self.body)
+        return yaml.safe_load(self.body.decode('utf-8'))
 
     @property
     def json_data(self):
-        return json.loads(self.body)
+        return json.loads(self.body.decode('utf-8'))
 
 
 class TestCase(testtools.TestCase):

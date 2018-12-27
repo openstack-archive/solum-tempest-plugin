@@ -21,7 +21,7 @@ from solum_tempest_plugin import base
 class VersionDiscoveryTestCase(base.TestCase):
     def test_get_root_discovers_v1(self):
         resp, body = self.client.get('/')
-        body = json.loads(body)
+        body = json.loads(body.decode('utf-8'))
         self.assertEqual(200, resp.status)
         self.assertEqual(1, len(body))
         v1 = body[0]
@@ -32,7 +32,7 @@ class VersionDiscoveryTestCase(base.TestCase):
 
     def test_delete_root_discovers_v1(self):
         resp, body = self.client.delete('/')
-        body = json.loads(body)
+        body = json.loads(body.decode('utf-8'))
         self.assertEqual(200, resp.status)
         self.assertEqual(1, len(body))
         v1 = body[0]
@@ -43,7 +43,7 @@ class VersionDiscoveryTestCase(base.TestCase):
 
     def test_post_root_discovers_v1(self):
         resp, body = self.client.post('/', '{}')
-        body = json.loads(body)
+        body = json.loads(body.decode('utf-8'))
         self.assertEqual(200, resp.status)
         self.assertEqual(1, len(body))
         v1 = body[0]
@@ -54,7 +54,7 @@ class VersionDiscoveryTestCase(base.TestCase):
 
     def test_put_root_discovers_v1(self):
         resp, body = self.client.put('/', '{}')
-        body = json.loads(body)
+        body = json.loads(body.decode('utf-8'))
         self.assertEqual(200, resp.status)
         self.assertEqual(1, len(body))
         v1 = body[0]
@@ -66,7 +66,7 @@ class VersionDiscoveryTestCase(base.TestCase):
     def test_post_no_body_root_discovers_v1(self):
         self.skipTest("POST without body will hang request: #1367470")
         resp, body = self.client.post('/', None)
-        body = json.loads(body)
+        body = json.loads(body.decode('utf-8'))
         self.assertEqual(200, resp.status)
         self.assertEqual(1, len(body))
         v1 = body[0]
@@ -78,7 +78,7 @@ class VersionDiscoveryTestCase(base.TestCase):
     def test_put_no_body_root_discovers_v1(self):
         self.skipTest("PUT without body will hang request: #1367470")
         resp, body = self.client.put('/', None)
-        body = json.loads(body)
+        body = json.loads(body.decode('utf-8'))
         self.assertEqual(200, resp.status)
         self.assertEqual(1, len(body))
         v1 = body[0]
