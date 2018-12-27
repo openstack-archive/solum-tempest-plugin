@@ -13,6 +13,8 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+import six
+
 from tempest.lib import exceptions as tempest_exceptions
 import yaml
 
@@ -224,8 +226,10 @@ class TestPlanController(base.TestCase):
         self.assertEqual(201, create_resp.status)
         uuid = create_resp.uuid
         resp, body = self.client.delete_plan(uuid)
+        if isinstance(body, six.binary_type):
+            body = body.decode('utf-8')
         self.assertEqual(202, resp.status)
-        self.assertEqual(b'', body)
+        self.assertEqual('', body)
 
     def test_plans_delete_not_found(self):
         self.assertRaises(tempest_exceptions.NotFound,

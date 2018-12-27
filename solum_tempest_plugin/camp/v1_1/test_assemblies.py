@@ -11,6 +11,7 @@
 # under the License.
 
 import json
+import six
 
 from tempest.lib import exceptions as tempest_exceptions
 import yaml
@@ -67,7 +68,9 @@ class TestAssembliesController(base.TestCase):
         self.assertEqual(200, resp.status, 'GET assemblies resource')
 
         # pick out the assemebly link for our new assembly uuid
-        assemblies_dct = json.loads(body.decode('utf-8'))
+        if isinstance(body, six.binary_type):
+            body = body.decode('utf-8')
+        assemblies_dct = json.loads(body)
         camp_link = None
         for link in assemblies_dct['assembly_links']:
             link_uuid = link['href'].split("/")[-1]
@@ -83,7 +86,9 @@ class TestAssembliesController(base.TestCase):
         resp, body = self.client.get(url)
         self.assertEqual(200, resp.status, msg)
 
-        assembly = json.loads(body.decode('utf-8'))
+        if isinstance(body, six.binary_type):
+            body = body.decode('utf-8')
+        assembly = json.loads(body)
         self.assertEqual('assembly', assembly['type'])
         self.assertEqual(base.assembly_sample_data['name'], assembly['name'])
 

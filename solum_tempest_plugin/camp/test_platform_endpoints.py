@@ -11,6 +11,7 @@
 # under the License.
 
 import json
+import six
 
 from solum_tempest_plugin import base
 
@@ -25,7 +26,9 @@ class PlatformDiscoveryTestCase(base.TestCase):
                       request_without_auth('camp/platform_endpoints',
                                            'GET'))
         self.assertEqual(200, resp.status)
-        endpoints = json.loads(body.decode('utf-8'))
+        if isinstance(body, six.binary_type):
+            body = body.decode('utf-8')
+        endpoints = json.loads(body)
         self.assertEqual('platform_endpoints', endpoints['type'])
         self.assertEqual('Solum_CAMP_endpoints', endpoints['name'])
         pe_links = endpoints['platform_endpoint_links']
@@ -44,7 +47,9 @@ class PlatformDiscoveryTestCase(base.TestCase):
                       request_without_auth(rel_ep_url,
                                            'GET'))
         self.assertEqual(200, resp.status)
-        endpoint = json.loads(body.decode('utf-8'))
+        if isinstance(body, six.binary_type):
+            body = body.decode('utf-8')
+        endpoint = json.loads(body)
         self.assertEqual('platform_endpoint', endpoint['type'])
         self.assertEqual('Solum_CAMP_v1_1_endpoint', endpoint['name'])
         self.assertEqual('CAMP 1.1', endpoint['specification_version'])

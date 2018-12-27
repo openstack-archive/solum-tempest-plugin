@@ -11,6 +11,7 @@
 # under the License.
 
 import json
+import six
 import time
 
 import requests
@@ -25,7 +26,10 @@ class TestTriggerController(base.TestCase):
         lp_name = self.client.create_lp()
         data = apputils.get_sample_data(languagepack=lp_name)
         resp = self.client.create_app(data=data)
-        bdy = json.loads(resp.body.decode('utf-8'))
+        body = resp.body
+        if isinstance(body, six.binary_type):
+            body = body.decode('utf-8')
+        bdy = json.loads(body)
         trigger_uri = bdy['trigger_uri']
         # Using requests instead of self.client to test unauthenticated request
         status_url = 'https://api.github.com/repos/u/r/statuses/{sha}'
@@ -46,7 +50,10 @@ class TestTriggerController(base.TestCase):
         lp_name = self.client.create_lp()
         data = apputils.get_sample_data(languagepack=lp_name)
         resp = self.client.create_app(data=data)
-        bdy = json.loads(resp.body.decode('utf-8'))
+        body = resp.body
+        if isinstance(body, six.binary_type):
+            body = body.decode('utf-8')
+        bdy = json.loads(body)
         trigger_uri = bdy['trigger_uri']
         # Using requests instead of self.client to test unauthenticated request
         resp = requests.post(trigger_uri)

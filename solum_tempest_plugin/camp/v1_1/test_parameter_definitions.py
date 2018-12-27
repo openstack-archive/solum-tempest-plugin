@@ -11,6 +11,7 @@
 # under the License.
 
 import json
+import six
 
 from solum_tempest_plugin import base
 
@@ -27,7 +28,9 @@ class TestParameterDefinitions(base.TestCase):
             self.skipTest('CAMP not enabled.')
         resp, body = self.client.get('camp/v1_1/assemblies/')
         self.assertEqual(200, resp.status, 'GET assemblies resource')
-        assemblies = json.loads(body.decode('utf-8'))
+        if isinstance(body, six.binary_type):
+            body = body.decode('utf-8')
+        assemblies = json.loads(body)
 
         # get the URL of the parameter_definitions resource
         url = (assemblies['parameter_definitions_uri']
@@ -37,7 +40,9 @@ class TestParameterDefinitions(base.TestCase):
         resp, body = self.client.get(url)
         self.assertEqual(200, resp.status,
                          'GET assembly parameter_definitions resource')
-        pd_resc = json.loads(body.decode('utf-8'))
+        if isinstance(body, six.binary_type):
+            body = body.decode('utf-8')
+        pd_resc = json.loads(body)
         self.assertEqual('parameter_definitions', pd_resc['type'])
         self.assertIn('parameter_definition_links', pd_resc)
         pd_links = pd_resc['parameter_definition_links']
@@ -67,7 +72,9 @@ class TestParameterDefinitions(base.TestCase):
             self.skipTest('CAMP not enabled.')
         resp, body = self.client.get('camp/v1_1/plans/')
         self.assertEqual(200, resp.status, 'GET plans resource')
-        plans = json.loads(body.decode('utf-8'))
+        if isinstance(body, six.binary_type):
+            body = body.decode('utf-8')
+        plans = json.loads(body)
 
         # get the URL of the parameter_definitions resource
         url = (plans['parameter_definitions_uri']
@@ -77,7 +84,9 @@ class TestParameterDefinitions(base.TestCase):
         resp, body = self.client.get(url)
         self.assertEqual(200, resp.status,
                          'GET plans parameter_definitions resource')
-        pd_resc = json.loads(body.decode('utf-8'))
+        if isinstance(body, six.binary_type):
+            body = body.decode('utf-8')
+        pd_resc = json.loads(body)
         self.assertEqual('parameter_definitions', pd_resc['type'])
         self.assertIn('parameter_definition_links', pd_resc)
         pd_links = pd_resc['parameter_definition_links']

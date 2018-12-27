@@ -14,6 +14,7 @@
 # under the License.
 
 import json
+import six
 
 from tempest.lib import exceptions as tempest_exceptions
 
@@ -35,7 +36,9 @@ class TestServiceController(base.TestCase):
 
     def _delete_all(self):
         resp, body = self.client.get('v1/services')
-        data = json.loads(body.decode('utf-8'))
+        if isinstance(body, six.binary_type):
+            body = body.decode('utf-8')
+        data = json.loads(body)
         self.assertEqual(resp.status, 200)
         [self._delete_service(ser['uuid']) for ser in data]
 
@@ -55,7 +58,9 @@ class TestServiceController(base.TestCase):
         jsondata = json.dumps(sample_data)
         resp, body = self.client.post('v1/services', jsondata)
         self.assertEqual(resp.status, 201)
-        out_data = json.loads(body.decode('utf-8'))
+        if isinstance(body, six.binary_type):
+            body = body.decode('utf-8')
+        out_data = json.loads(body)
         uuid = out_data['uuid']
         self.assertIsNotNone(uuid)
         return uuid
@@ -63,7 +68,9 @@ class TestServiceController(base.TestCase):
     def test_services_get_all(self):
         uuid = self._create_service()
         resp, body = self.client.get('v1/services')
-        data = json.loads(body.decode('utf-8'))
+        if isinstance(body, six.binary_type):
+            body = body.decode('utf-8')
+        data = json.loads(body)
         self.assertEqual(resp.status, 200)
         filtered = [ser for ser in data if ser['uuid'] == uuid]
         self.assertEqual(filtered[0]['uuid'], uuid)
@@ -72,7 +79,9 @@ class TestServiceController(base.TestCase):
         sample_json = json.dumps(sample_data)
         resp, body = self.client.post('v1/services', sample_json)
         self.assertEqual(resp.status, 201)
-        json_data = json.loads(body.decode('utf-8'))
+        if isinstance(body, six.binary_type):
+            body = body.decode('utf-8')
+        json_data = json.loads(body)
         self._assert_output_expected(json_data, sample_data)
         self._delete_service(json_data['uuid'])
 
@@ -84,7 +93,9 @@ class TestServiceController(base.TestCase):
         uuid = self._create_service()
         resp, body = self.client.get('v1/services/%s' % uuid)
         self.assertEqual(resp.status, 200)
-        json_data = json.loads(body.decode('utf-8'))
+        if isinstance(body, six.binary_type):
+            body = body.decode('utf-8')
+        json_data = json.loads(body)
         self._assert_output_expected(json_data, sample_data)
         self._delete_service(uuid)
 
@@ -102,7 +113,9 @@ class TestServiceController(base.TestCase):
         updated_json = json.dumps(updated_data)
         resp, body = self.client.put('v1/services/%s' % uuid, updated_json)
         self.assertEqual(resp.status, 200)
-        json_data = json.loads(body.decode('utf-8'))
+        if isinstance(body, six.binary_type):
+            body = body.decode('utf-8')
+        json_data = json.loads(body)
         self._assert_output_expected(json_data, updated_data)
         self._delete_service(uuid)
 
@@ -124,8 +137,10 @@ class TestServiceController(base.TestCase):
     def test_services_delete(self):
         uuid = self._create_service()
         resp, body = self.client.delete('v1/services/%s' % uuid)
+        if isinstance(body, six.binary_type):
+            body = body.decode('utf-8')
         self.assertEqual(resp.status, 204)
-        self.assertEqual(body, b'')
+        self.assertEqual(body, '')
 
     def test_services_delete_not_found(self):
         self.assertRaises(tempest_exceptions.NotFound,

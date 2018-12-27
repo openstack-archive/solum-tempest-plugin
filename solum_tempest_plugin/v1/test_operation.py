@@ -14,6 +14,7 @@
 # under the License.
 
 import json
+import six
 
 from solum_tempest_plugin import base
 
@@ -22,6 +23,8 @@ class TestOperationController(base.TestCase):
 
     def test_operations_get_all(self):
         resp, body = self.client.get('v1/operations')
-        data = json.loads(body.decode('utf-8'))
+        if isinstance(body, six.binary_type):
+            body = body.decode('utf-8')
+        data = json.loads(body)
         self.assertEqual(200, resp.status)
         self.assertEqual([], data)

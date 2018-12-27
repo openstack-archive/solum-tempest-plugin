@@ -16,6 +16,7 @@ import copy
 import json
 import os
 import random
+import six
 import string
 import time
 
@@ -164,7 +165,9 @@ class SolumClient(rest_client.RestClient):
 
     def delete_created_lps(self):
         resp, body = self.get('v1/language_packs')
-        data = json.loads(body.decode('utf-8'))
+        if isinstance(body, six.binary_type):
+            body = body.decode('utf-8')
+        data = json.loads(body)
         [self._delete_language_pack(pl['uuid']) for pl in data]
 
     def _delete_language_pack(self, uuid):
@@ -197,11 +200,13 @@ class SolumClient(rest_client.RestClient):
 class SolumResponse(object):
     def __init__(self, resp, body, body_type):
         self.resp = resp
+        if isinstance(body, six.binary_type):
+            body = body.decode('utf-8')
         self.body = body
         if body_type == 'json':
-            self.data = json.loads(self.body.decode('utf-8'))
+            self.data = json.loads(self.body)
         elif body_type == 'yaml':
-            self.data = yaml.safe_load(self.body.decode('utf-8'))
+            self.data = yaml.safe_load(self.body)
         if self.data.get('uuid'):
             self.uuid = self.data.get('uuid')
         if self.data.get('id'):
@@ -213,11 +218,11 @@ class SolumResponse(object):
 
     @property
     def yaml_data(self):
-        return yaml.safe_load(self.body.decode('utf-8'))
+        return yaml.safe_load(self.body)
 
     @property
     def json_data(self):
-        return json.loads(self.body.decode('utf-8'))
+        return json.loads(self.body)
 
 
 class TestCase(testtools.TestCase):

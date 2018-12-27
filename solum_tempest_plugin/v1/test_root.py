@@ -14,6 +14,7 @@
 # under the License.
 
 import json
+import six
 
 from solum_tempest_plugin import base
 
@@ -23,7 +24,9 @@ class TestRootController(base.TestCase):
     def test_index(self):
         resp, body = self.client.request_without_auth('', 'GET')
         self.assertEqual(200, resp.status)
-        data = json.loads(body.decode('utf-8'))
+        if isinstance(body, six.binary_type):
+            body = body.decode('utf-8')
+        data = json.loads(body)
         self.assertEqual(data[0]['id'], 'v1.0')
         self.assertEqual(data[0]['status'], 'CURRENT')
         self.assertEqual(data[0]['link'],
@@ -33,7 +36,9 @@ class TestRootController(base.TestCase):
     def test_platform(self):
         resp, body = self.client.request_without_auth('v1', 'GET')
         self.assertEqual(200, resp.status)
-        data = json.loads(body.decode('utf-8'))
+        if isinstance(body, six.binary_type):
+            body = body.decode('utf-8')
+        data = json.loads(body)
         self.assertEqual(data['uri'], '%s/v1' % self.client.base_url)
         self.assertEqual(data['type'], 'platform')
         self.assertEqual(data['name'], 'solum')

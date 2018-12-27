@@ -14,6 +14,7 @@
 # under the License.
 
 import json
+import six
 
 from tempest.lib import exceptions as tempest_exceptions
 
@@ -62,7 +63,9 @@ class TestComponentController(base.TestCase):
         data = json.dumps(sample_data)
         resp, body = self.client.post('v1/components', data)
         self.assertEqual(201, resp.status)
-        out_data = json.loads(body.decode('utf-8'))
+        if isinstance(body, six.binary_type):
+            body = body.decode('utf-8')
+        out_data = json.loads(body)
         uuid = out_data['uuid']
         self.assertIsNotNone(uuid)
         return uuid, assembly_uuid, plan_uuid
@@ -70,7 +73,9 @@ class TestComponentController(base.TestCase):
     def test_components_get_all(self):
         uuid, assembly_uuid, plan_uuid = self._create_component()
         resp, body = self.client.get('v1/components')
-        data = json.loads(body.decode('utf-8'))
+        if isinstance(body, six.binary_type):
+            body = body.decode('utf-8')
+        data = json.loads(body)
         self.assertEqual(200, resp.status)
         filtered = [com for com in data if com['uuid'] == uuid]
         self.assertEqual(1, len(filtered))
@@ -91,7 +96,9 @@ class TestComponentController(base.TestCase):
         sample_json = json.dumps(sample_data)
         resp, body = self.client.post('v1/components', sample_json)
         self.assertEqual(201, resp.status)
-        json_data = json.loads(body.decode('utf-8'))
+        if isinstance(body, six.binary_type):
+            body = body.decode('utf-8')
+        json_data = json.loads(body)
         self._assert_output_expected(json_data, sample_data)
         self._delete_component(json_data['uuid'])
 
@@ -105,7 +112,9 @@ class TestComponentController(base.TestCase):
                                                       plan_uuid)
         resp, body = self.client.get('v1/components/%s' % uuid)
         self.assertEqual(200, resp.status)
-        json_data = json.loads(body.decode('utf-8'))
+        if isinstance(body, six.binary_type):
+            body = body.decode('utf-8')
+        json_data = json.loads(body)
         self._assert_output_expected(json_data, sample_data)
         self._delete_component(uuid)
 
@@ -123,7 +132,9 @@ class TestComponentController(base.TestCase):
         updated_json = json.dumps(updated_data)
         resp, body = self.client.put('v1/components/%s' % uuid, updated_json)
         self.assertEqual(200, resp.status)
-        json_data = json.loads(body.decode('utf-8'))
+        if isinstance(body, six.binary_type):
+            body = body.decode('utf-8')
+        json_data = json.loads(body)
         self._assert_output_expected(json_data, updated_data)
         self._delete_component(uuid)
 
@@ -145,8 +156,10 @@ class TestComponentController(base.TestCase):
     def test_components_delete(self):
         uuid, assembly_uuid, plan_uuid = self._create_component()
         resp, body = self.client.delete('v1/components/%s' % uuid)
+        if isinstance(body, six.binary_type):
+            body = body.decode('utf-8')
         self.assertEqual(204, resp.status)
-        self.assertEqual(b'', body)
+        self.assertEqual('', body)
 
     def test_components_delete_not_found(self):
         self.assertRaises(tempest_exceptions.NotFound,

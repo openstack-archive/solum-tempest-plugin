@@ -14,6 +14,7 @@
 # under the License.
 
 import json
+import six
 import time
 
 from tempest.lib import exceptions as tempest_exceptions
@@ -96,7 +97,9 @@ class TestAppController(base.TestCase):
             headers={'content-type': 'application/json'})
 
         self.assertEqual(200, resp.status)
-        app_body = json.loads(body.decode('utf-8'))
+        if isinstance(body, six.binary_type):
+            body = body.decode('utf-8')
+        app_body = json.loads(body)
         self.assertEqual('newfakeappname', app_body["name"])
         self.assertEqual("newruncmd", app_body["workflow_config"]["run_cmd"])
         self.assertEqual("newrepo", app_body["source"]["repository"])
@@ -144,8 +147,10 @@ class TestAppController(base.TestCase):
         self.assertEqual(201, create_resp.status)
         id = create_resp.id
         resp, body = self.client.delete_app(id)
+        if isinstance(body, six.binary_type):
+            body = body.decode('utf-8')
         self.assertEqual(202, resp.status)
-        self.assertEqual(b'', body)
+        self.assertEqual('', body)
         time.sleep(2)
         self.client.delete_language_pack(lp_name)
 
