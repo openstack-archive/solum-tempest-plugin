@@ -18,7 +18,8 @@ from tempest.lib import exceptions as tempest_exceptions
 import yaml
 
 from solum_tempest_plugin import base
-from solum_tempest_plugin.v1 import test_plan as solum_tests
+from solum_tempest_plugin.tests.application_deployment.v1 import test_plan \
+    as solum_tests
 
 
 sample_data = {"camp_version": "CAMP 1.1",

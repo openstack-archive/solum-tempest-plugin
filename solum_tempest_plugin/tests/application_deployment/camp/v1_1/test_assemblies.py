@@ -17,7 +17,8 @@ from tempest.lib import exceptions as tempest_exceptions
 import yaml
 
 from solum_tempest_plugin import base
-from solum_tempest_plugin.camp.v1_1 import test_plans
+from solum_tempest_plugin.tests.application_deployment.camp.v1_1 \
+    import test_plans
 
 
 class TestAssembliesController(base.TestCase):
