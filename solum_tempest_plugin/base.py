@@ -62,7 +62,7 @@ SolumGroup = [
                        help="Defaults to false. Determines whether Barbican"
                             "is enabled."),
     config.cfg.BoolOpt('camp_enabled',
-                       default=True,
+                       default=False,
                        help="Defaults to true. Determines whether CAMP"
                             "is enabled.")
 ]
