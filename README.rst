@@ -16,7 +16,7 @@ See the Tempest plugin docs for information on using it:
 https://docs.openstack.org/tempest/latest/#using-plugins
 
 * Free software: Apache license
-* Documentation: https://docs.openstack.org/solum-tempest-plugin/latest
+* Documentation: https://docs.openstack.org/solum/latest/
 * Source: https://opendev.org/openstack/solum-tempest-plugin
 * Bugs: https://bugs.launchpad.net/solum
 
