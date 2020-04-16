@@ -14,7 +14,6 @@
 # under the License.
 
 import json
-import six
 
 from tempest.lib import exceptions as tempest_exceptions
 
@@ -71,7 +70,7 @@ class TestAssemblyController(base.TestCase):
         self.assertEqual(200, resp.status)
 
         # Search for uuids of created assemblies
-        if isinstance(body, six.binary_type):
+        if isinstance(body, bytes):
             body = body.decode('utf-8')
         assembly_list = json.loads(body)
         found_uuid_1 = False
@@ -118,7 +117,7 @@ class TestAssemblyController(base.TestCase):
                                                       plan_uuid)
         resp, body = self.client.get('v1/assemblies/%s' % uuid)
         self.assertEqual(200, resp.status)
-        if isinstance(body, six.binary_type):
+        if isinstance(body, bytes):
             body = body.decode('utf-8')
         json_data = json.loads(body)
         self._assert_output_expected(json_data, sample_data)
@@ -131,7 +130,7 @@ class TestAssemblyController(base.TestCase):
         resp, body = self.client.get('v1/assemblies/%s' % uuid,
                                      headers=use_https)
         self.assertEqual(200, resp.status)
-        if isinstance(body, six.binary_type):
+        if isinstance(body, bytes):
             body = body.decode('utf-8')
         json_data = json.loads(body)
         self._assert_output_expected(json_data, sample_data)
@@ -159,7 +158,7 @@ class TestAssemblyController(base.TestCase):
         updated_json = json.dumps(updated_data)
         resp, body = self.client.put('v1/assemblies/%s' % uuid, updated_json)
         self.assertEqual(200, resp.status)
-        if isinstance(body, six.binary_type):
+        if isinstance(body, bytes):
             body = body.decode('utf-8')
         json_data = json.loads(body)
         self._assert_output_expected(json_data, updated_data)
@@ -213,7 +212,7 @@ class TestAssemblyController(base.TestCase):
         uuid = assembly_resp.uuid
 
         resp, body = self.client.delete_assembly(uuid)
-        if isinstance(body, six.binary_type):
+        if isinstance(body, bytes):
             body = body.decode('utf-8')
         self.assertEqual(204, resp.status)
         self.assertEqual('', body)

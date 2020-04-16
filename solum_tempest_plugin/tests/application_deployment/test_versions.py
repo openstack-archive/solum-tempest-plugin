@@ -14,7 +14,6 @@
 # under the License.
 
 import json
-import six
 
 from solum_tempest_plugin import base
 
@@ -22,7 +21,7 @@ from solum_tempest_plugin import base
 class VersionDiscoveryTestCase(base.TestCase):
     def test_get_root_discovers_v1(self):
         resp, body = self.client.get('/')
-        if isinstance(body, six.binary_type):
+        if isinstance(body, bytes):
             body = body.decode('utf-8')
         body = json.loads(body)
         self.assertEqual(200, resp.status)
@@ -35,7 +34,7 @@ class VersionDiscoveryTestCase(base.TestCase):
 
     def test_delete_root_discovers_v1(self):
         resp, body = self.client.delete('/')
-        if isinstance(body, six.binary_type):
+        if isinstance(body, bytes):
             body = body.decode('utf-8')
         body = json.loads(body)
         self.assertEqual(200, resp.status)
@@ -48,7 +47,7 @@ class VersionDiscoveryTestCase(base.TestCase):
 
     def test_post_root_discovers_v1(self):
         resp, body = self.client.post('/', '{}')
-        if isinstance(body, six.binary_type):
+        if isinstance(body, bytes):
             body = body.decode('utf-8')
         body = json.loads(body)
         self.assertEqual(200, resp.status)
@@ -61,7 +60,7 @@ class VersionDiscoveryTestCase(base.TestCase):
 
     def test_put_root_discovers_v1(self):
         resp, body = self.client.put('/', '{}')
-        if isinstance(body, six.binary_type):
+        if isinstance(body, bytes):
             body = body.decode('utf-8')
         body = json.loads(body)
         self.assertEqual(200, resp.status)
@@ -75,7 +74,7 @@ class VersionDiscoveryTestCase(base.TestCase):
     def test_post_no_body_root_discovers_v1(self):
         self.skipTest("POST without body will hang request: #1367470")
         resp, body = self.client.post('/', None)
-        if isinstance(body, six.binary_type):
+        if isinstance(body, bytes):
             body = body.decode('utf-8')
         body = json.loads(body)
         self.assertEqual(200, resp.status)
@@ -89,7 +88,7 @@ class VersionDiscoveryTestCase(base.TestCase):
     def test_put_no_body_root_discovers_v1(self):
         self.skipTest("PUT without body will hang request: #1367470")
         resp, body = self.client.put('/', None)
-        if isinstance(body, six.binary_type):
+        if isinstance(body, bytes):
             body = body.decode('utf-8')
         body = json.loads(body)
         self.assertEqual(200, resp.status)

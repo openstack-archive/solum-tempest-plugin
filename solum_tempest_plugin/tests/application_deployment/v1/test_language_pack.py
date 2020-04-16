@@ -14,7 +14,6 @@
 
 import json
 import random
-import six
 import string
 import time
 
@@ -46,7 +45,7 @@ class TestLanguagePackController(base.TestCase):
 
     def _delete_all(self):
         resp, body = self.client.get('v1/language_packs')
-        if isinstance(body, six.binary_type):
+        if isinstance(body, bytes):
             body = body.decode('utf-8')
         data = json.loads(body)
         self.assertEqual(200, resp.status)
@@ -61,7 +60,7 @@ class TestLanguagePackController(base.TestCase):
         jsondata = json.dumps(sample_lp)
         resp, body = self.client.post('v1/language_packs', jsondata)
         self.assertEqual(201, resp.status)
-        if isinstance(body, six.binary_type):
+        if isinstance(body, bytes):
             body = body.decode('utf-8')
         out_data = json.loads(body)
         uuid = out_data['uuid']
@@ -71,7 +70,7 @@ class TestLanguagePackController(base.TestCase):
     def test_language_packs_get_all(self):
         uuid, sample_lp = self._create_language_pack()
         resp, body = self.client.get('v1/language_packs')
-        if isinstance(body, six.binary_type):
+        if isinstance(body, bytes):
             body = body.decode('utf-8')
         data = json.loads(body)
         self.assertEqual(200, resp.status)
@@ -84,7 +83,7 @@ class TestLanguagePackController(base.TestCase):
         sample_json = json.dumps(sample_lp)
         resp, body = self.client.post('v1/language_packs', sample_json)
         self.assertEqual(201, resp.status)
-        if isinstance(body, six.binary_type):
+        if isinstance(body, bytes):
             body = body.decode('utf-8')
         json_data = json.loads(body)
         self.assertEqual("QUEUED", json_data["status"])
@@ -99,7 +98,7 @@ class TestLanguagePackController(base.TestCase):
         uuid, sample_lp = self._create_language_pack()
         resp, body = self.client.get('v1/language_packs/%s' % uuid)
         self.assertEqual(200, resp.status)
-        if isinstance(body, six.binary_type):
+        if isinstance(body, bytes):
             body = body.decode('utf-8')
         json_data = json.loads(body)
         self.assertEqual(sample_lp['source_uri'], json_data['source_uri'])
@@ -113,7 +112,7 @@ class TestLanguagePackController(base.TestCase):
     def test_language_packs_delete(self):
         uuid, sample_lp = self._create_language_pack()
         resp, body = self.client.delete('v1/language_packs/%s' % uuid)
-        if isinstance(body, six.binary_type):
+        if isinstance(body, bytes):
             body = body.decode('utf-8')
         self.assertEqual(204, resp.status)
         self.assertEqual('', body)
@@ -149,7 +148,7 @@ class TestLanguagePackController(base.TestCase):
         self.assertRaises(tempest_exceptions.Conflict,
                           self.client.delete, 'v1/language_packs/%s' % uuid)
         body = resp.body
-        if isinstance(body, six.binary_type):
+        if isinstance(body, bytes):
             body = body.decode('utf-8')
         bdy = json.loads(body)
 

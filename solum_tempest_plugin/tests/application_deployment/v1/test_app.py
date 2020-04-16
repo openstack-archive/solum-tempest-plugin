@@ -14,7 +14,6 @@
 # under the License.
 
 import json
-import six
 import time
 
 from tempest.lib import exceptions as tempest_exceptions
@@ -99,7 +98,7 @@ class TestAppController(base.TestCase):
             headers={'content-type': 'application/json'})
 
         self.assertEqual(200, resp.status)
-        if isinstance(body, six.binary_type):
+        if isinstance(body, bytes):
             body = body.decode('utf-8')
         app_body = json.loads(body)
         self.assertEqual('newfakeappname', app_body["name"])
@@ -149,7 +148,7 @@ class TestAppController(base.TestCase):
         self.assertEqual(201, create_resp.status)
         id = create_resp.id
         resp, body = self.client.delete_app(id)
-        if isinstance(body, six.binary_type):
+        if isinstance(body, bytes):
             body = body.decode('utf-8')
         self.assertEqual(202, resp.status)
         self.assertEqual('', body)

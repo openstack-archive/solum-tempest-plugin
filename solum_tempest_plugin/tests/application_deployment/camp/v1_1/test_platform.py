@@ -11,7 +11,6 @@
 # under the License.
 
 import json
-import six
 
 from solum_tempest_plugin import base
 
@@ -21,7 +20,7 @@ class TestPlatformAndContainers(base.TestCase):
     def _test_get_resource(self, url, rtype, name):
         resp, body = self.client.get(url)
         self.assertEqual(200, resp.status, 'GET %s resource' % rtype)
-        if isinstance(body, six.binary_type):
+        if isinstance(body, bytes):
             body = body.decode('utf-8')
         resource = json.loads(body)
         self.assertEqual(rtype, resource['type'])
@@ -33,7 +32,7 @@ class TestPlatformAndContainers(base.TestCase):
         # get and test our platform resource
         resp, body = self.client.get('camp/v1_1/platform/')
         self.assertEqual(200, resp.status, 'GET platform resource')
-        if isinstance(body, six.binary_type):
+        if isinstance(body, bytes):
             body = body.decode('utf-8')
         platform = json.loads(body)
         self.assertEqual('platform', platform['type'])

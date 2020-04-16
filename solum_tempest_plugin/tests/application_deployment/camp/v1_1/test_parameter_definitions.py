@@ -11,7 +11,6 @@
 # under the License.
 
 import json
-import six
 
 from solum_tempest_plugin import base
 
@@ -28,7 +27,7 @@ class TestParameterDefinitions(base.TestCase):
             self.skipTest('CAMP not enabled.')
         resp, body = self.client.get('camp/v1_1/assemblies/')
         self.assertEqual(200, resp.status, 'GET assemblies resource')
-        if isinstance(body, six.binary_type):
+        if isinstance(body, bytes):
             body = body.decode('utf-8')
         assemblies = json.loads(body)
 
@@ -40,7 +39,7 @@ class TestParameterDefinitions(base.TestCase):
         resp, body = self.client.get(url)
         self.assertEqual(200, resp.status,
                          'GET assembly parameter_definitions resource')
-        if isinstance(body, six.binary_type):
+        if isinstance(body, bytes):
             body = body.decode('utf-8')
         pd_resc = json.loads(body)
         self.assertEqual('parameter_definitions', pd_resc['type'])
@@ -72,7 +71,7 @@ class TestParameterDefinitions(base.TestCase):
             self.skipTest('CAMP not enabled.')
         resp, body = self.client.get('camp/v1_1/plans/')
         self.assertEqual(200, resp.status, 'GET plans resource')
-        if isinstance(body, six.binary_type):
+        if isinstance(body, bytes):
             body = body.decode('utf-8')
         plans = json.loads(body)
 
@@ -84,7 +83,7 @@ class TestParameterDefinitions(base.TestCase):
         resp, body = self.client.get(url)
         self.assertEqual(200, resp.status,
                          'GET plans parameter_definitions resource')
-        if isinstance(body, six.binary_type):
+        if isinstance(body, bytes):
             body = body.decode('utf-8')
         pd_resc = json.loads(body)
         self.assertEqual('parameter_definitions', pd_resc['type'])

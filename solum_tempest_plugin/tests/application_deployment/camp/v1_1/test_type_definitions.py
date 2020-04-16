@@ -11,7 +11,6 @@
 # under the License.
 
 import json
-import six
 
 from solum_tempest_plugin import base
 
@@ -22,7 +21,7 @@ class TestTypeDefinitions(base.TestCase):
         url = abs_url[len(self.client.base_url) + 1:]
         resp, body = self.client.get(url)
         self.assertEqual(200, resp.status, msg)
-        if isinstance(body, six.binary_type):
+        if isinstance(body, bytes):
             body = body.decode('utf-8')
         resource = json.loads(body)
         self.assertEqual(rtype, resource['type'])
@@ -42,7 +41,7 @@ class TestTypeDefinitions(base.TestCase):
         resp, body = self.client.get('camp/v1_1/type_definitions')
         self.assertEqual(200, resp.status, 'GET type_definitions resource')
 
-        if isinstance(body, six.binary_type):
+        if isinstance(body, bytes):
             body = body.decode('utf-8')
         defs_dct = json.loads(body)
         for link_dct in defs_dct['type_definition_links']:

@@ -14,7 +14,6 @@
 # under the License.
 
 import json
-import six
 
 from tempest.lib import exceptions as tempest_exceptions
 
@@ -36,7 +35,7 @@ class TestServiceController(base.TestCase):
 
     def _delete_all(self):
         resp, body = self.client.get('v1/services')
-        if isinstance(body, six.binary_type):
+        if isinstance(body, bytes):
             body = body.decode('utf-8')
         data = json.loads(body)
         self.assertEqual(resp.status, 200)
@@ -58,7 +57,7 @@ class TestServiceController(base.TestCase):
         jsondata = json.dumps(sample_data)
         resp, body = self.client.post('v1/services', jsondata)
         self.assertEqual(resp.status, 201)
-        if isinstance(body, six.binary_type):
+        if isinstance(body, bytes):
             body = body.decode('utf-8')
         out_data = json.loads(body)
         uuid = out_data['uuid']
@@ -68,7 +67,7 @@ class TestServiceController(base.TestCase):
     def test_services_get_all(self):
         uuid = self._create_service()
         resp, body = self.client.get('v1/services')
-        if isinstance(body, six.binary_type):
+        if isinstance(body, bytes):
             body = body.decode('utf-8')
         data = json.loads(body)
         self.assertEqual(resp.status, 200)
@@ -79,7 +78,7 @@ class TestServiceController(base.TestCase):
         sample_json = json.dumps(sample_data)
         resp, body = self.client.post('v1/services', sample_json)
         self.assertEqual(resp.status, 201)
-        if isinstance(body, six.binary_type):
+        if isinstance(body, bytes):
             body = body.decode('utf-8')
         json_data = json.loads(body)
         self._assert_output_expected(json_data, sample_data)
@@ -93,7 +92,7 @@ class TestServiceController(base.TestCase):
         uuid = self._create_service()
         resp, body = self.client.get('v1/services/%s' % uuid)
         self.assertEqual(resp.status, 200)
-        if isinstance(body, six.binary_type):
+        if isinstance(body, bytes):
             body = body.decode('utf-8')
         json_data = json.loads(body)
         self._assert_output_expected(json_data, sample_data)
@@ -113,7 +112,7 @@ class TestServiceController(base.TestCase):
         updated_json = json.dumps(updated_data)
         resp, body = self.client.put('v1/services/%s' % uuid, updated_json)
         self.assertEqual(resp.status, 200)
-        if isinstance(body, six.binary_type):
+        if isinstance(body, bytes):
             body = body.decode('utf-8')
         json_data = json.loads(body)
         self._assert_output_expected(json_data, updated_data)
@@ -137,7 +136,7 @@ class TestServiceController(base.TestCase):
     def test_services_delete(self):
         uuid = self._create_service()
         resp, body = self.client.delete('v1/services/%s' % uuid)
-        if isinstance(body, six.binary_type):
+        if isinstance(body, bytes):
             body = body.decode('utf-8')
         self.assertEqual(resp.status, 204)
         self.assertEqual(body, '')

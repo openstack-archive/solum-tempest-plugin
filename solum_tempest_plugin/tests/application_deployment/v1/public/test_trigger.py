@@ -11,7 +11,6 @@
 # under the License.
 
 import json
-import six
 import time
 
 import requests
@@ -28,7 +27,7 @@ class TestTriggerController(base.TestCase):
         data = apputils.get_sample_data(languagepack=lp_name)
         resp = self.client.create_app(data=data)
         body = resp.body
-        if isinstance(body, six.binary_type):
+        if isinstance(body, bytes):
             body = body.decode('utf-8')
         bdy = json.loads(body)
         trigger_uri = bdy['trigger_uri']
@@ -53,7 +52,7 @@ class TestTriggerController(base.TestCase):
         data = apputils.get_sample_data(languagepack=lp_name)
         resp = self.client.create_app(data=data)
         body = resp.body
-        if isinstance(body, six.binary_type):
+        if isinstance(body, bytes):
             body = body.decode('utf-8')
         bdy = json.loads(body)
         trigger_uri = bdy['trigger_uri']

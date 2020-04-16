@@ -11,7 +11,6 @@
 # under the License.
 
 import json
-import six
 
 from solum_tempest_plugin import base
 
@@ -28,7 +27,7 @@ class TestSupportedFormats(base.TestCase):
             self.skipTest('CAMP not enabled.')
         resp, body = self.client.get('camp/v1_1/formats/')
         self.assertEqual(200, resp.status, 'GET formats resource')
-        if isinstance(body, six.binary_type):
+        if isinstance(body, bytes):
             body = body.decode('utf-8')
         formats = json.loads(body)
         self.assertEqual('formats', formats['type'])
@@ -46,7 +45,7 @@ class TestSupportedFormats(base.TestCase):
         # get our lone platform_endpoint resource
         resp, body = self.client.get(url)
         self.assertEqual(200, resp.status, 'GET JSON format resource')
-        if isinstance(body, six.binary_type):
+        if isinstance(body, bytes):
             body = body.decode('utf-8')
         formatr = json.loads(body)
         self.assertEqual('format', formatr['type'])
