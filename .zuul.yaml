@@ -2,5 +2,31 @@
     templates:
       - check-requirements
       - tempest-plugin-jobs
+    check:
+      jobs:
+        - solum-devstack-ussuri
+        - solum-devstack-train
+        - solum-devstack-stein
     gate:
       queue: solum
+
+- job:
+    name: solum-devstack-ussuri
+    parent: solum-devstack
+    override-checkout: stable/ussuri
+
+- job:
+    name: solum-devstack-train
+    parent: solum-devstack
+    override-checkout: stable/train
+    vars:
+      devstack_localrc:
+        USE_PYTHON3: True
+
+- job:
+    name: solum-devstack-stein
+    parent: solum-devstack
+    override-checkout: stable/stein
+    vars:
+      devstack_localrc:
+        USE_PYTHON3: True
