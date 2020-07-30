@@ -13,11 +13,13 @@
 - job:
     name: solum-devstack-ussuri
     parent: solum-devstack
+    nodeset: openstack-single-node-bionic
     override-checkout: stable/ussuri
 
 - job:
     name: solum-devstack-train
     parent: solum-devstack
+    nodeset: openstack-single-node-bionic
     override-checkout: stable/train
     vars:
       devstack_localrc:
@@ -26,6 +28,7 @@
 - job:
     name: solum-devstack-stein
     parent: solum-devstack
+    nodeset: openstack-single-node-bionic
     override-checkout: stable/stein
     vars:
       devstack_localrc:
