@@ -4,32 +4,33 @@
       - tempest-plugin-jobs
     check:
       jobs:
+        - solum-devstack-xena
+        - solum-devstack-wallaby
+        - solum-devstack-victoria
         - solum-devstack-ussuri
-        - solum-devstack-train
-        - solum-devstack-stein
     gate:
       queue: solum
+
+- job:
+    name: solum-devstack-xena
+    parent: solum-devstack
+    nodeset: openstack-single-node-focal
+    override-checkout: stable/xena
+
+- job:
+    name: solum-devstack-wallaby
+    parent: solum-devstack
+    nodeset: openstack-single-node-focal
+    override-checkout: stable/wallaby
+
+- job:
+    name: solum-devstack-victoria
+    parent: solum-devstack
+    nodeset: openstack-single-node-focal
+    override-checkout: stable/victoria
 
 - job:
     name: solum-devstack-ussuri
     parent: solum-devstack
     nodeset: openstack-single-node-bionic
     override-checkout: stable/ussuri
-
-- job:
-    name: solum-devstack-train
-    parent: solum-devstack
-    nodeset: openstack-single-node-bionic
-    override-checkout: stable/train
-    vars:
-      devstack_localrc:
-        USE_PYTHON3: True
-
-- job:
-    name: solum-devstack-stein
-    parent: solum-devstack
-    nodeset: openstack-single-node-bionic
-    override-checkout: stable/stein
-    vars:
-      devstack_localrc:
-        USE_PYTHON3: True
