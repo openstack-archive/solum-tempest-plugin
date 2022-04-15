@@ -4,12 +4,18 @@
       - tempest-plugin-jobs
     check:
       jobs:
+        - solum-devstack-yoga
         - solum-devstack-xena
         - solum-devstack-wallaby
         - solum-devstack-victoria
-        - solum-devstack-ussuri
     gate:
       queue: solum
+
+- job:
+    name: solum-devstack-yoga
+    parent: solum-devstack
+    nodeset: openstack-single-node-focal
+    override-checkout: stable/yoga
 
 - job:
     name: solum-devstack-xena
@@ -28,9 +34,3 @@
     parent: solum-devstack
     nodeset: openstack-single-node-focal
     override-checkout: stable/victoria
-
-- job:
-    name: solum-devstack-ussuri
-    parent: solum-devstack
-    nodeset: openstack-single-node-bionic
-    override-checkout: stable/ussuri
