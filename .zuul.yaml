@@ -7,7 +7,6 @@
         - solum-devstack-yoga
         - solum-devstack-xena
         - solum-devstack-wallaby
-        - solum-devstack-victoria
     gate:
       queue: solum
 
@@ -28,9 +27,3 @@
     parent: solum-devstack
     nodeset: openstack-single-node-focal
     override-checkout: stable/wallaby
-
-- job:
-    name: solum-devstack-victoria
-    parent: solum-devstack
-    nodeset: openstack-single-node-focal
-    override-checkout: stable/victoria
