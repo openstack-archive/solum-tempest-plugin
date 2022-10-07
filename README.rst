@@ -24,14 +24,15 @@ Running the tests
 -----------------
 
 To run all tests from this plugin, install Solum into your environment and
-navigate to tempest directory::
+navigate to tempest directory and run::
 
     $ cd /opt/stack/tempest
+    $ tox -e venv-tempest -- pip install (path to the solum-tempest-plugin directory)
 
-Run this command::
+To run all tests from the solumn-tempest-plugin, run this command::
 
-    $ tox -e all-plugin -- solum_tempest_plugin
+    $ tox -e all -- solum_tempest_plugin
 
 To run a single test case, run with the test case name, for example::
 
-    $ tox -e all-plugin -- solum_tempest_plugin.camp.v1_1.test_plans.TestPlansController.test_create_camp_plan
+    $ tox -e all -- solum_tempest_plugin.camp.v1_1.test_plans.TestPlansController.test_create_camp_plan
