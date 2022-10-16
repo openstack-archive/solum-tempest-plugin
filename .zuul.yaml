@@ -1,4 +1,5 @@
 - project:
+    queue: solum
     templates:
       - check-requirements
       - tempest-plugin-jobs
@@ -7,8 +8,12 @@
         - solum-devstack-yoga
         - solum-devstack-xena
         - solum-devstack-wallaby
-    gate:
-      queue: solum
+
+- job:
+    name: solum-devstack-zed
+    parent: solum-devstack
+    nodeset: openstack-single-node-focal
+    override-checkout: stable/zed
 
 - job:
     name: solum-devstack-yoga
